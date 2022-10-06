@@ -3,7 +3,7 @@
 /**
  * bubble_sort - sorts an array of integers in ascending order
  * using the Bubble sort algorithm
- * 
+ *
  * @array: the array to be sorted
  * @size: size of the array
  */
@@ -18,10 +18,10 @@ void bubble_sort(int *array, size_t size)
 			iter = 1;
 			size_buf--;
 		}
-		if (array[iter-1] > array[iter])
+		if (array[iter - 1] > array[iter])
 		{
-			buffer = array[iter-1];
-			array[iter-1] = array[iter];
+			buffer = array[iter - 1];
+			array[iter - 1] = array[iter];
 			array[iter] = buffer;
 		}
 		sorted_flag = check_for_sort(array, size);

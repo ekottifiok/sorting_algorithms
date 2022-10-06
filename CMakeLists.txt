@@ -9,5 +9,6 @@ add_executable(
     print_list.c
     check_for_sort.c
     0-bubble_sort.c
-    0-main.c
+    1-insertion_sort_list.c
+    1-main.c
 )
