@@ -12,10 +12,13 @@ void swap_int_array(int *array, size_t i, size_t j, size_t size)
 {
 	int temp;
 
-	temp = array[i];
-	array[i] = array[j];
-	array[j] = temp;
-	print_array(array, size);
+	if (array[i] != array[j])
+	{
+		temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+		print_array(array, size);
+	}
 }
 
 /**
