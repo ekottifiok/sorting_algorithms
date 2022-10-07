@@ -30,7 +30,7 @@ void swap_int_array(int *array, size_t i, size_t j, size_t size)
  */
 void quick_sort_hoare(int *array, size_t size)
 {
-	if (array == NULL || size < 1)
+	if (array == NULL || size <= 1)
 		return;
 
 	quick_sort_hoare_r(array, 0, size - 1, size);
@@ -80,11 +80,13 @@ long hoare_partition(int *array, long low, long high, size_t size)
 
 	while (1) /* infinite loop */
 	{
-		do {/* move the left index at least once */
+		do
+		{ /* move the left index at least once */
 			i = i + 1;
 		} while (array[i] < pivot);
 
-		do {/* move the right index at least once */
+		do
+		{ /* move the right index at least once */
 			j = j - 1;
 		} while (array[j] > pivot);
 
