@@ -27,4 +27,7 @@ void print_array(const int *array, size_t size);
 void print_list(const listint_t *list);
 void insertion_sort_list(listint_t **list);
 void bitonic_sort(int *array, size_t size);
+void quick_sort_hoare(int *array, size_t size);
+void quick_sort_hoare_r(int *array, long low, long high, size_t size);
+long hoare_partition(int *array, long low, long high, size_t size);
 #endif
