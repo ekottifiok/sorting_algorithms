@@ -80,13 +80,11 @@ long hoare_partition(int *array, long low, long high, size_t size)
 
 	while (1) /* infinite loop */
 	{
-		do
-		{ /* move the left index at least once */
+		do { /* move the left index at least once */
 			i = i + 1;
 		} while (array[i] < pivot);
 
-		do
-		{ /* move the right index at least once */
+		do { /* move the right index at least once */
 			j = j - 1;
 		} while (array[j] > pivot);
 
