@@ -10,6 +10,7 @@ add_executable(
     check_for_sort.c
     0-bubble_sort.c
     1-insertion_sort_list.c
+    1-main.c
     2-selection_sort.c
     3-quick_sort.c
     1-main.c
