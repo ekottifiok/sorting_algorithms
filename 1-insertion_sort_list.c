@@ -1,22 +1,26 @@
 #include "sort.h"
 
 /**
- * print_db_linklist - handles the printing of the double list
+ * getNode - Gets the node at a given index
  *
- * @buffer: list to be printed
+ * @list: The list to be tranversed
+ * @idx: The index
+ *
+ * Return: (listint_t) the found Node or NULL
  */
-void print_db_linklist(listint_t *buffer)
+listint_t *getNode(listint_t **list, size_t idx)
 {
-	while (buffer->prev)
-		buffer = buffer->prev;
-	for (; buffer; buffer = buffer->next)
+	listint_t *node = NULL;
+	size_t i;
+
+	node = *list;
+	for (i = 0; node != NULL; i++)
 	{
-		if (buffer->prev)
-			printf(", %d", buffer->n);
-		else
-			printf("%d", buffer->n);
+		if (i == idx)
+			return (node);
+		node = node->next;
 	}
-	printf("\n");
+	return (node);
 }
 
 /**
@@ -27,31 +31,40 @@ void print_db_linklist(listint_t *buffer)
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *buffer = *list;
+	listint_t *inode, *node, *prev, *next;
+	int i, j;
 
-	while (buffer->prev)
-		buffer = buffer->prev;
+	if (list == NULL)
+		return;
 
-	for (buffer = buffer->next; buffer; buffer = buffer->next)
+			inode = *list;
+	for (i = 0; inode != NULL; i++)
 	{
-		for (; buffer->n < (buffer->prev)->n;)
+		j = i;
+		node = getNode(list, j);
+		while (j > 0 && node && node->prev && node->prev->n > node->n)
 		{
-			if (buffer->prev)
-				(buffer->prev)->next = buffer->next;
-			if (buffer->next)
-				(buffer->next)->prev = (buffer->prev);
+			prev = node->prev;
+			next = node->next;
+			node->prev = NULL;
+			node->next = NULL;
 
-			buffer->next = buffer->prev;
-			buffer->prev = (buffer->prev)->prev;
-			if (buffer->next)
-				(buffer->next)->prev = buffer;
-			if (buffer->prev)
-				(buffer->prev)->next = buffer;
-			else
-				break;
+			node->prev = prev->prev;
+			if (prev->prev != NULL)
+				prev->prev->next = node;
+			if (prev->prev == NULL)
+				*list = node;
+
+			prev->next = next;
+			if (next != NULL)
+				next->prev = prev;
+			prev->prev = node;
+			node->next = prev;
+			print_list(*list);
+
+			j -= 1;
+			node = getNode(list, j);
 		}
-		print_db_linklist(*list);
+		inode = inode->next;
 	}
-	while ((*list)->prev)
-		*list = (*list)->prev;
 }
