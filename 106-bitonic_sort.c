@@ -8,7 +8,8 @@
  * @j: The destination index
  * @size: The array size
  */
-void swap_int_array(int *array, size_t i, size_t j, size_t size __attribute__((unused)))
+void swap_int_array(int *array, size_t i, size_t j,
+					size_t size __attribute__((unused)))
 {
 	int temp;
 
@@ -73,7 +74,7 @@ void bitonic_merge(int *array, int low, int n, int asc, size_t size)
 }
 
 /**
- * bitonic_sort - sorts an array using bitonic algorithm
+ * bitonic_sort_r - sorts an array using bitonic algorithm
  *
  * @array: The array to be sorted
  * @low: The lower bound
