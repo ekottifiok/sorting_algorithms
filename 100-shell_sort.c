@@ -1,68 +1,109 @@
 #include "sort.h"
 
 /**
- * knuth_sequence - Generates a knuth sequence
- * @size: The size of the sequence
- *
- * Return: an array filled with knuth series
+ * _pow_recursion - finds the power of number using recursion
+ * @x: the base value example 10
+ * @y: the power example 2
+ * Return: returns the value of 10**2 which is 100
  */
-int *knuth_sequence(size_t size)
+int _pow_recursion(int x, int y)
 {
-	int *gaps;
-	int n = 0;
-	size_t i;
-
-	gaps = malloc(sizeof(int) * (size / 3));
-
-	for (i = 0; i < size / 3; i++)
-	{
-		n = n * 3 + 1;
-		gaps[i] = n;
-	}
-	return (gaps);
+	if (y < 0)
+		return (-1);
+	if (y == 0)
+		return (1);
+	return (x * _pow_recursion(x, y - 1));
 }
 
 /**
- * shell_sort - sorts an array of integers in ascending order using
- * the Shell sort algorithm, using the Knuth sequence
+ * generate_knuth - generates the sequence
+ *
+ * @end: end value of the sequence
+ * @len: length of the sequence
+ * Return: int*
+ */
+int *generate_knuth(int end, int *len)
+{
+	int *ar, i, j, step, buffer, len_ar = 1;
+
+	ar = malloc(sizeof(int) * len_ar);
+	for (i = 1; i < end; i++, len_ar++)
+	{
+		step = (_pow_recursion(3, i) - 1) / 2;
+		if (step > end)
+			break;
+		ar[len_ar - 1] = step;
+		ar = realloc(ar, len_ar + 1);
+	}
+	*len = --len_ar;
+	for (i = 0, j = len_ar - 1; i < len_ar / 2; i++, j--)
+	{
+		buffer = ar[i];
+		ar[i] = ar[j];
+		ar[j] = buffer;
+	}
+
+	return (ar);
+}
+
+/**
+ * swap_array - swaps values in an array
+ *
+ * @array: the array to be swapped
+ * @position: the position to be swapped
+ * @step: the step before or after the position
+ * Return: int
+ */
+int swap_array(int **array, int position, int step)
+{
+	int buffer;
+
+	if (position + step < 0)
+		return (0);
+	buffer = (*array)[position];
+	(*array)[position] = (*array)[position + step];
+	(*array)[position + step] = buffer;
+	return (1);
+}
+
+/**
+ * shell_sort - sorts an array
  *
  * @array: the array
  * @size: size of the array
  */
 void shell_sort(int *array, size_t size)
 {
-	int *gaps = knuth_sequence(size);
-	int temp;
-	size_t gap, k, i, j;
+	int *gaps, len_gaps, j, k, sorts, gap, k_buf, s;
 
 	if (array == NULL || size <= 1)
 		return;
 
-	if (size == 2)
+	gaps = generate_knuth(size, &len_gaps);
+	for (sorts = 1, j = 0, gap = gaps[j]; sorts; gap = gaps[j])
 	{
-		if (array[0] > array[1])
-		{
-			temp = array[0];
-			array[0] = array[1];
-			array[1] = temp;
-		}
-		return;
-	}
 
-	for (k = 0; k < size / 3; k++)
-	{
-		gap = gaps[k];
-		for (i = gap; i < size; i++)
+		sorts = 0;
+
+		for (k = 0; k + gap < (int)size; k++)
 		{
-			temp = array[i];
-			for (j = i; ((j >= gap) && (array[j - gap] > temp)); j--)
+			if (array[k] < array[k + gap])
+				continue;
+			swap_array(&array, k, gap);
+			sorts = 1;
+			k_buf = k;
+
+			while (k_buf - gap >= 0 && s && array[k_buf - gap] > array[k_buf])
 			{
-				array[j] = array[j - gap];
+				s = swap_array(&array, k_buf, -gap);
+				k_buf -= gap;
 			}
-			array[j] = temp;
-			if (j < gap)
-				print_array(array, size);
+		}
+		if (j < len_gaps - 1)
+		{
+			print_array(array, size);
+			j += 1;
 		}
 	}
-	free(gaps);
+	print_array(array, size);
 }
