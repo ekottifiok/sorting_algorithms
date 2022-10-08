@@ -1,25 +1,6 @@
 #include "sort.h"
 
 /**
- * check_for_sort - checks if the array is sorted
- *
- * @array: the array to be checked
- * @size: the size of the array
- * Return: unsigned int 0 for sorted and 1 for not
- */
-unsigned int check_for_sort(int *array, size_t size)
-{
-	unsigned int iter;
-
-	for (iter = 1; iter < size; iter++)
-	{
-		if (array[iter - 1] > array[iter])
-			return (1);
-	}
-	return (0);
-}
-
-/**
  * bubble_sort - sorts an array of integers in ascending order
  * using the Bubble sort algorithm
  *
@@ -28,23 +9,25 @@ unsigned int check_for_sort(int *array, size_t size)
  */
 void bubble_sort(int *array, size_t size)
 {
-	unsigned int iter, sorted_flag = 1, buffer, size_buf;
+	int swapped = 1, temp;
+	size_t i;
 
-	for (iter = 1, size_buf = size; sorted_flag; iter++)
+	if (array == NULL || size <= 1)
+		return;
+
+	while (swapped == 1)
 	{
-		if (iter == size_buf)
+		swapped = 0;
+		for (i = 1; i < size; i++)
 		{
-			iter = 1;
-			size_buf--;
+			if (array[i - 1] > array[i])
+			{
+				temp = array[i - 1];
+				array[i - 1] = array[i];
+				array[i] = temp;
+				swapped = 1;
+				print_array(array, size);
+			}
 		}
-		if (array[iter - 1] > array[iter])
-		{
-			print_array(array, size);
-			buffer = array[iter - 1];
-			array[iter - 1] = array[iter];
-			array[iter] = buffer;
-			print_array(array, size);
-		}
-		sorted_flag = check_for_sort(array, size);
 	}
 }
