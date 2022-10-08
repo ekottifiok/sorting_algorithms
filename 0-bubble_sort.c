@@ -42,8 +42,8 @@ void bubble_sort(int *array, size_t size)
 			buffer = array[iter - 1];
 			array[iter - 1] = array[iter];
 			array[iter] = buffer;
+			print_array(array, size);
 		}
 		sorted_flag = check_for_sort(array, size);
-		print_array(array, size);
 	}
 }
