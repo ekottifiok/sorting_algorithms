@@ -31,4 +31,5 @@ void quick_sort_hoare_r(int *array, long low, long high, size_t size);
 long hoare_partition(int *array, long low, long high, size_t size);
 void shell_sort(int *array, size_t size);
 void radix_sort(int *array, size_t size);
+void counting_sort(int *array, size_t size);
 #endif
