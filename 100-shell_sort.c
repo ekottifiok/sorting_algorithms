@@ -60,7 +60,7 @@ void shell_sort(int *array, size_t size)
 				array[j] = array[j - gap];
 			}
 			array[j] = temp;
-			if (j == 0)
+			if (j < gap)
 				print_array(array, size);
 		}
 	}
