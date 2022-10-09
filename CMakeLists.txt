@@ -12,5 +12,6 @@ add_executable(
     2-selection_sort.c
     3-quick_sort.c
     100-shell_sort.c
-    100-main.c
+    101-cocktail_sort_list.c
+    101-main.c
 )
