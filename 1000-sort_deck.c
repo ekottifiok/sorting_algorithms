@@ -1,43 +1,145 @@
 #include "deck.h"
 
+int present_position(deck_node_t *start)
+{
+    int len_list;
+    for (len_list = 0; start; len_list++)
+		start = start->next;
+    return len_list;
+}
 
+void print_deck_sd(deck_node_t *deck)
+{
+    size_t i;
+    char kinds[4] = {'S', 'H', 'C', 'D'};
+    while (deck->prev)
+		deck = deck->prev;
+    i = 0;
+    while (deck)
+    {
+        if (i)
+            printf(", ");
+        printf("{%s, %c}", deck->card->value, kinds[deck->card->kind]);
+        if (i == 12)
+            printf("\n");
+        i = (i + 1) % 13;
+        deck = deck->next;
+    }
+}
 
-void move_forward(deck_node_t **main, int *flag, char *keys, char *type)
+void move_forward(deck_node_t **main, int *flag, char *keys, int position_end)
 {
     deck_node_t *buffer = *main, *node, *prev_node, *next_node;
+    int key_position, kind_value;
 
-    for (; buffer->next;)
+    kind_value = position_end %10;
+    position_end /= 10;
+    key_position = position_end % 10;
+    position_end /= 10;
+    key_position += (position_end % 10) * 10;
+    for (position_end /= 10; buffer->next && position_end > 0; position_end--)
     {
         prev_node = buffer->prev;
         next_node = buffer->next;
         node = buffer;
-        for (;type;type++)
+        if ((int)(node->card->kind) == kind_value && *(node->card->value) == keys[key_position])
         {
 
+            if (prev_node)
+                prev_node->next = next_node;
+            next_node->prev = prev_node;
+            if (next_node->next != NULL)
+                (next_node->next)->prev = node;
+            node->next = next_node->next;
+            next_node->next = node;
+            node->prev = next_node;
+
+            *flag = 1;
+            print_deck_sd(*main);
+            continue;
         }
+
+        buffer = buffer->next;
     }
+    *main = buffer;
 }
 
-void move_backward(deck_node_t **main, int *flag, char *keys, char *type)
+void move_backward(deck_node_t **main, int *flag, char *keys, int position_end)
 {
+    deck_node_t *buffer = *main, *node, *prev_node, *next_node;
+    int key_position, kind_value, position_sub_flag = 1;
+    char *inverted_key = "3210";
 
+    kind_value = inverted_key[position_end%10]-48;
+    position_end /= 10;
+    key_position = position_end % 10;
+    position_end /= 10;
+    key_position += (position_end % 10) * 10;
+    position_end /= 10;
+    for (; buffer->prev; )
+    {
+        prev_node = buffer->prev;
+        next_node = buffer->next;
+        node = buffer;
+        if ((int)(node->card->kind) == kind_value && *(node->card->value) == keys[key_position] && position_end >= 0)
+        {
+            if (position_sub_flag)
+            {
+                position_end -= present_position(buffer);
+                position_sub_flag = 0;
+            }
+            if (prev_node)
+				prev_node->next = next_node;
+			next_node->prev = prev_node;
+			node->next = prev_node;
+			node->prev = prev_node->prev;
+			if (prev_node)
+			{
+				if (prev_node->prev != NULL)
+					prev_node->prev->next = node;
+				prev_node->prev = node;
+			}
+			*flag = 1;
+            print_deck_sd(*main);
+            position_end--;
+            continue;
+        }
+
+        buffer = buffer->prev;
+    }
+    *main = buffer;
 }
+
+
 
 void sort_deck(deck_node_t **deck)
 {
-    int sort_flag;
-    char keys[] = "A23456789JQK", kind[] = "SHCD", keys_rev[] = "KQJ98765432A", kind_rev[] = "DCHS";
+    int sort_flag, kind_value, key_value, info;
+    char keys[] = "A234567891JQK", keys_rev[] = "KQJ198765432A";
     deck_node_t *working_deck = *deck;
+    size_t len_list, len_list_buf;
 
     if (!deck || !(*deck))
         return;
 
-    for (sort_flag = 1; sort_flag; working_deck = *deck)
+    for (working_deck = *deck;working_deck->prev; working_deck = working_deck->prev)
+		;
+    len_list = present_position(working_deck);
+
+    for (sort_flag = 1, kind_value = 3, key_value = 0, len_list_buf = --len_list; kind_value > 1; working_deck = *deck, key_value++, len_list_buf--)
     {
+        if (key_value == 13)
+        {
+            key_value = 0;
+            kind_value--;
+        }
+        while (working_deck->prev)
+		    working_deck = working_deck->prev;
         sort_flag = 0;
-        move_forward(&working_deck, &sort_flag, keys, kind);
+        info = len_list_buf*1000 + key_value * 10+kind_value;
+        move_forward(&working_deck, &sort_flag, keys_rev, info);
         working_deck = working_deck->prev;
-        move_backward(&working_deck, &sort_flag, keys_rev, kind_rev);
+        move_backward(&working_deck, &sort_flag, keys, info);
     }
     while (working_deck->prev)
         working_deck = working_deck->prev;
