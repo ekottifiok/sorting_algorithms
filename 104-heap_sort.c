@@ -75,7 +75,7 @@ void heapify(int *array, size_t size)
 	long start;
 
 	/* start from the parent of the last element in the array */
-	start = (floor(((size - 1) - 1) / 2));
+	start = (((size - 1) - 1) / 2);
 
 	while (start >= 0)
 	{
