@@ -106,7 +106,7 @@ void cocktail_sort_list(listint_t **list)
 	size_t len_list;
 	int sort_flag;
 
-	if (!list)
+	if (!list || !(*list))
 		return;
 	buffer = *list;
 	while (buffer->prev)
