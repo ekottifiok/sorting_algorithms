@@ -2,3 +2,5 @@ build
 cmake-build-debug
 exportToHTML
 .idea
+test.md
+merge

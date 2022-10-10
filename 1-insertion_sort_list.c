@@ -37,7 +37,7 @@ void insertion_sort_list(listint_t **list)
 	if (list == NULL)
 		return;
 
-			inode = *list;
+	inode = *list;
 	for (i = 0; inode != NULL; i++)
 	{
 		j = i;

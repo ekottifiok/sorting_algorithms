@@ -7,11 +7,12 @@ add_executable(
     sorting_algorithms
     print_array.c
     print_list.c
-    check_for_sort.c
     0-bubble_sort.c
     1-insertion_sort_list.c
-    1-main.c
     2-selection_sort.c
     3-quick_sort.c
-    1-main.c
+    100-shell_sort.c
+    101-cocktail_sort_list.c
+    103-merge_sort.c
+    103-main.c
 )
