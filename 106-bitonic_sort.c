@@ -89,13 +89,12 @@ void bitonic_sort_r(int *array, int low, int n, int asc, size_t size)
 	if (n > 1)
 	{
 		int k = n / 2;
-
 		printf("Merging [%d/%ld] (%s):\n", n, size, dir);
 		print_sorted(array, n);
 		bitonic_sort_r(array, low, k, 1, size);
 		bitonic_sort_r(array, low + k, k, 0, size);
 
-		print_sorted(array, n);
+		bitonic_merge(array, low, n, asc, size);
 	}
 }
 
