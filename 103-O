@@ -1,3 +1,3 @@
-O(nlogn)
-T(nlogn)
+Omega(nlogn)
+Theta(nlogn)
 O(nlogn)
