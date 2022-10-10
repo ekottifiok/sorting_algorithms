@@ -90,6 +90,8 @@ void merge_sort(int array[], size_t size)
 	size_t i;
 	int *buffer;
 
+	if (!array || size <= 0)
+		return;
 	buffer = malloc(sizeof(int) * size + 1);
 	for (i = 0; i < size; i++)
 		buffer[i] = array[i];
