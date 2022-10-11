@@ -5,14 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(
     sorting_algorithms
-    print_array.c
-    print_list.c
-    0-bubble_sort.c
-    1-insertion_sort_list.c
-    2-selection_sort.c
-    3-quick_sort.c
-    100-shell_sort.c
-    101-cocktail_sort_list.c
-    103-merge_sort.c
-    103-main.c
+    1000-sort_deck.c
+    1000-main.c
 )

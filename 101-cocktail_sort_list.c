@@ -103,7 +103,6 @@ void move_backward(listint_t **main, int *flag)
 void cocktail_sort_list(listint_t **list)
 {
 	listint_t *buffer;
-	size_t len_list;
 	int sort_flag;
 
 	if (!list || !(*list))
@@ -112,8 +111,6 @@ void cocktail_sort_list(listint_t **list)
 	while (buffer->prev)
 		buffer = buffer->prev;
 
-	for (len_list = 0; buffer; len_list++)
-		buffer = buffer->next;
 	for (buffer = *list, sort_flag = 1; sort_flag; buffer = *list)
 	{
 		sort_flag = 0;
